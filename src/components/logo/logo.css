@@ -1,0 +1,18 @@
+/* .tilt {
+  background: linear-gradient(
+    90deg,
+    rgba(153, 148, 230, 1) 0%,
+    rgba(92, 94, 198, 1) 44%,
+    rgba(0, 212, 255, 1) 100%
+  );
+} */
+
+.tilt {
+  width: 150px;
+  height: 150px;
+}
+
+img {
+  width: 150px;
+  height: 150px;
+}
