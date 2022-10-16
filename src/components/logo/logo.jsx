@@ -12,7 +12,7 @@ const Logo = () => {
           width: "150px",
         }}
       >
-        <img src={brain} alt="logo"></img>
+        <img className="logo" src={brain} alt="logo"></img>
       </div>
     </Tilt>
   );

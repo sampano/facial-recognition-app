@@ -1,6 +1,6 @@
 import "./face-recognition.css";
 const FaceRecognition = ({ searchField, box }) => {
-  //console.log("faceRecognityio", searchField);
+  console.log("faceRecognityio", box);
   return (
     <div className="center ma">
       <div className="absolute mt2">

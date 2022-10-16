@@ -6,13 +6,14 @@ import ImageLinkForm from "./components/image-link-form/image-link-form";
 import Rank from "./components/rank/rank";
 import ParticlesBg from "particles-bg";
 import "./App.css";
+import SignIn from "./components/signin/sign-in";
 
 function App() {
   let input = "";
   let box = {};
   const [searchField, setSearchField] = useState(input);
   const [boxSize, setBoxSize] = useState(box);
-
+  const [route, setRoute] = useState("signin");
   const onInputChange = (event) => {
     input = event.target.value;
   };
@@ -65,22 +66,32 @@ function App() {
       requestOptions
     )
       .then((response) => response.json())
-      .then((result) => displayFaceBox(calculateFaceLocation(result)))
+      .then((result) =>
+        calculateFaceLocation(
+          result.outputs[0].data.regions[0].region_info.bounding_box
+        )
+      )
+      //   displayFaceBox(
+      //     calculateFaceLocation(
+      //       result.outputs[0].data.regions[0].region_info.bounding_box
+      //     )
+      //   )
+      // )
       .catch((error) => console.log("error", error));
   };
 
-  const calculateFaceLocation = (data) => {
-    const clarifaiFace =
-      data.outputs[0].data.regions[0].region_info.bounding_box;
+  const calculateFaceLocation = async (data) => {
+    const clarifaiFace = await data;
     const image = document.getElementById("inputimage");
     const width = Number(image.width);
     const height = Number(image.height);
-    return {
+    const box = {
       leftCol: clarifaiFace.left_col * width,
       topRow: clarifaiFace.top_row * height,
       rightCol: width - clarifaiFace.right_col * width,
       bottomRow: height - clarifaiFace.bottom_row * height,
     };
+    displayFaceBox(box);
   };
 
   const displayFaceBox = (box) => {
@@ -91,14 +102,20 @@ function App() {
   return (
     <div className="App">
       <Navigation />
-      <Logo />
-      <Rank />
-      <ImageLinkForm
-        onInputChange={onInputChange}
-        onButtonSubmit={onButtonSubmit}
-      />
-      <ParticlesBg type="cobweb" bg={true} />
-      <FaceRecognition box={boxSize} searchField={searchField} />
+      {setRoute === "signin" ? (
+        <SignIn />
+      ) : (
+        <div>
+          <Logo />
+          <Rank />
+          <ImageLinkForm
+            onInputChange={onInputChange}
+            onButtonSubmit={onButtonSubmit}
+          />
+          <ParticlesBg type="cobweb" bg={true} />
+          <FaceRecognition box={boxSize} searchField={searchField} />
+        </div>
+      )}
     </div>
   );
 }
